@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1773852028889,
+    "symbol": "ACME.N0000",
+    "buyPrice": 7.2,
+    "quantity": 4651,
+    "targetPrice": "8.06",
+    "stopLoss": "6.77",
+    "notifiedTarget": false,
+    "notifiedStop": false
+  },
+  {
+    "id": 1773852042472,
+    "symbol": "KZOO.R0000",
+    "buyPrice": 0.9,
+    "quantity": 39999,
+    "targetPrice": "1.01",
+    "stopLoss": "0.85",
+    "notifiedTarget": false,
+    "notifiedStop": false
+  }
+]
