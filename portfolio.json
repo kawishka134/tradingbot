@@ -18,5 +18,15 @@
     "stopLoss": "0.85",
     "notifiedTarget": false,
     "notifiedStop": false
+  },
+  {
+    "id": 1773857229258,
+    "symbol": "HSIG.N0000",
+    "buyPrice": 67.2,
+    "quantity": 496,
+    "targetPrice": "75.26",
+    "stopLoss": "63.17",
+    "notifiedTarget": false,
+    "notifiedStop": false
   }
 ]
