@@ -519,7 +519,7 @@ app.use((req, res, next) => {
     }
 });
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`\n=========================================`);
     console.log(`🚀 TRADING SERVER STARTED SUCCESSFULLY`);
