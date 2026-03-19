@@ -403,7 +403,7 @@ export default function App() {
 
             <p className="text-muted mb-4" style={{ fontSize: '0.9rem' }}>{signal.rationale}</p>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.5rem', background: 'rgba(0,0,0,0.3)', padding: '1rem', borderRadius: '8px' }}>
+            <div className="res-grid-3" style={{ background: 'rgba(0,0,0,0.3)', padding: '1rem', borderRadius: '8px' }}>
               <div>
                 <span className="text-muted" style={{ fontSize: '0.7rem' }}>දැනට පවතින මිල</span><br />
                 <strong>Rs {Number(signal.currentPrice || 0).toFixed(2)}</strong>
@@ -419,11 +419,12 @@ export default function App() {
             </div>
 
             <button className="btn btn-primary mt-4" style={{ width: '100%' }} onClick={() => setActiveTab('allocator')}>
-              ඔබේ මුදලට සරිලන පරිදි කොටස් කීයක් ගත හැකිදැයි ගණනය කරන්න <ChevronRight size={16} />
+              ගණනය කරන්න <ChevronRight size={16} />
             </button>
           </div>
         ))}
       </div>
+
     </div>
   );
 
@@ -461,15 +462,15 @@ export default function App() {
         </div>
 
         <div className="glass-card" style={{ padding: 0, overflow: 'hidden' }}>
-          <div style={{ maxHeight: '70vh', overflowY: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+          <div className="table-container" style={{ maxHeight: '70vh' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '600px' }}>
               <thead style={{ position: 'sticky', top: 0, background: 'var(--card-bg)', zIndex: 1, borderBottom: '1px solid var(--border-light)' }}>
                 <tr>
                   <th style={{ padding: '1.2rem' }}>කොටස (Stock)</th>
                   <th style={{ padding: '1.2rem' }}>මිල (Price)</th>
-                  <th style={{ padding: '1.2rem' }}>වෙනස (Change)</th>
+                  <th className="hide-mobile" style={{ padding: '1.2rem' }}>වෙනස (Change)</th>
                   <th style={{ padding: '1.2rem' }}>ප්‍රතිශතය (%)</th>
-                  <th style={{ padding: '1.2rem' }}>පරිමාව (Turnover)</th>
+                  <th className="hide-mobile" style={{ padding: '1.2rem' }}>පරිමාව (Turnover)</th>
                   <th style={{ padding: '1.2rem' }}></th>
                 </tr>
               </thead>
@@ -485,10 +486,10 @@ export default function App() {
                     <tr key={i} style={{ borderBottom: '1px solid var(--border-light)', transition: 'background 0.2s' }} className="table-row-hover">
                       <td style={{ padding: '1.2rem' }}>
                         <div style={{ fontWeight: 'bold', color: 'var(--text-main)' }}>{stock.symbol}</div>
-                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{stock.name}</div>
+                        <div className="hide-mobile" style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{stock.name}</div>
                       </td>
                       <td style={{ padding: '1.2rem', fontWeight: 'bold' }}>Rs. {Number(stock.price || 0).toFixed(2)}</td>
-                      <td style={{ padding: '1.2rem' }} className={(stock.change || 0) >= 0 ? 'text-success' : 'text-danger'}>
+                      <td style={{ padding: '1.2rem', textAlign: 'right' }} className={(stock.change || 0) >= 0 ? 'text-success hide-mobile' : 'text-danger hide-mobile'}>
                         {(stock.change || 0) >= 0 ? '+' : ''}{(stock.change || 0).toFixed(2)}
                       </td>
                       <td style={{ padding: '1.2rem' }} className={(stock.percentageChange || 0) >= 0 ? 'text-success' : 'text-danger'}>
@@ -497,7 +498,7 @@ export default function App() {
                           {Math.abs(stock.percentageChange || 0).toFixed(2)}%
                         </div>
                       </td>
-                      <td style={{ padding: '1.2rem', color: 'var(--text-muted)' }}>Rs. {((stock.turnover || 0) / 1000000).toFixed(2)}M</td>
+                      <td className="hide-mobile" style={{ padding: '1.2rem', color: 'var(--text-muted)' }}>Rs. {((stock.turnover || 0) / 1000000).toFixed(2)}M</td>
                       <td style={{ padding: '1.2rem' }}>
                         <button className="btn btn-icon p-1" title="Analyze" onClick={() => { setSearchTerm(stock.symbol); setActiveTab('dashboard'); }}>
                           <Zap size={16} />
@@ -510,6 +511,7 @@ export default function App() {
             </table>
           </div>
         </div>
+
       </div>
     );
   };
@@ -629,7 +631,7 @@ export default function App() {
                       <h4 className="text-muted">{signal.name}</h4>
                     </div>
 
-                    <div className="grid-2 mb-6" style={{ gap: '1rem' }}>
+                    <div className="res-grid-2 mb-6" style={{ gap: '1rem' }}>
                       <div className="p-3" style={{ background: 'rgba(255,255,255,0.02)', borderRadius: '8px' }}>
                         <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>SAFETY SCORE</div>
                         <div style={{ fontSize: '1.5rem', fontWeight: '800' }} className="text-success">{signal.safetyScore}%</div>
@@ -639,6 +641,7 @@ export default function App() {
                         <div style={{ fontSize: '1.5rem', fontWeight: '800' }}>Rs. {signal.currentPrice}</div>
                       </div>
                     </div>
+
 
                     <div className="p-4 mb-6" style={{ background: 'rgba(0,0,0,0.4)', borderRadius: '12px', borderLeft: '4px solid var(--primary)' }}>
                       <h5 className="mb-2 text-primary">විශ්ලේෂණය (Rationale):</h5>
@@ -663,16 +666,17 @@ export default function App() {
                         <strong className="text-primary">100% ආරක්ෂිත ආයෝජන සැලසුම:</strong>
                         <Shield size={20} className="text-primary" />
                       </div>
-                      <div className="grid-2">
+                      <div className="res-grid-2">
                         <div>
                           <div style={{ fontSize: '0.75rem' }}>මිලදී ගතයුතු ප්‍රමාණය</div>
                           <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{allocation.shares} Shares</div>
                         </div>
-                        <div className="text-right">
+                        <div className="portfolio-total-inv">
                           <div style={{ fontSize: '0.75rem' }}>මුළු ආයෝජනය</div>
                           <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>Rs. {allocation.totalInvestment.toLocaleString()}</div>
                         </div>
                       </div>
+
                     </div>
                   </div>
                 );
@@ -741,8 +745,10 @@ export default function App() {
             {aiSignals.filter(s => s.action.includes('මිලදී')).map((signal, i) => {
               const allocation = calculateAllocation(signal);
               return (
-                <div key={i} className="glass-card" style={{ display: 'grid', gridTemplateColumns: '2fr 3fr', gap: '2rem', padding: '1.5rem', background: 'linear-gradient(145deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.05) 100%)' }}>
-                  <div>
+                <div key={i} className="glass-card" style={{ padding: '1.5rem', background: 'linear-gradient(145deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.05) 100%)' }}>
+                  <div className="res-grid-2" style={{ gap: '2rem' }}>
+                    <div>
+
                     <h3 style={{ color: 'var(--primary)', marginBottom: '0.5rem' }}>{signal.name}</h3>
                     <p className="text-muted" style={{ fontSize: '0.9rem', marginBottom: '1rem' }}>{signal.rationale}</p>
 
@@ -767,7 +773,7 @@ export default function App() {
                     <div style={{ background: 'rgba(0,0,0,0.3)', padding: '1rem', borderRadius: '12px', marginTop: '0.5rem' }}>
                       <span style={{ fontSize: '1.1rem', color: 'var(--text-main)', fontWeight: 'bold' }}>ඔබේ මුදලට අනුව පහත පරිදි කටයුතු කරන්න:</span>
                       <br /><br />
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                      <div className="res-grid-2" style={{ gap: '1rem' }}>
                         <div>
                           <div className="text-muted" style={{ fontSize: '0.8rem', marginBottom: '4px' }}>මිලදී ගතයුතු කොටස් (Shares)</div>
                           <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--success)' }}>{allocation.shares} </div>
@@ -777,6 +783,7 @@ export default function App() {
                           <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>Rs. {allocation.totalInvestment.toLocaleString()}</div>
                         </div>
                       </div>
+
                     </div>
 
                     <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'space-between' }}>
@@ -789,15 +796,16 @@ export default function App() {
                         <strong className="text-danger">- Rs. {allocation.riskAmount.toLocaleString()}</strong>
                       </div>
                     </div>
-                    
-                    <button 
-                      className="btn btn-primary mt-4" 
-                      style={{ width: '100%', padding: '0.8rem', fontWeight: 'bold', background: 'var(--success)' }} 
+
+                    <button
+                      className="btn btn-primary mt-4"
+                      style={{ width: '100%', padding: '0.8rem', fontWeight: 'bold', background: 'var(--success)' }}
                       onClick={() => addToPortfolioDirectly(signal, allocation)}
                     >
                       + Portfolio එකට එකතු කරන්න
                     </button>
                   </div>
+                </div>
                 </div>
               );
             })}
@@ -806,6 +814,7 @@ export default function App() {
       </div>
     </div>
   );
+
 
   const [newTrade, setNewTrade] = useState({ symbol: '', buyPrice: '', quantity: '', targetPrice: '', stopLoss: '' });
 
@@ -919,7 +928,7 @@ export default function App() {
                   <button onClick={() => removeTrade(trade.id)} style={{ background: 'none', border: 'none', color: 'var(--danger)', cursor: 'pointer' }}>ඉවත් කරන්න</button>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+                <div className="res-grid-2" style={{ gap: '1rem', marginBottom: '1rem' }}>
                   <div>
                     <div className="text-muted" style={{ fontSize: '0.8rem' }}>මිලදී ගත් මිල</div>
                     <div>Rs. {Number(trade.buyPrice).toFixed(2)}</div>
@@ -940,7 +949,7 @@ export default function App() {
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', background: 'rgba(0,0,0,0.2)', padding: '0.5rem', borderRadius: '8px' }}>
+                <div className="res-grid-2" style={{ gap: '1rem', background: 'rgba(0,0,0,0.2)', padding: '0.5rem', borderRadius: '8px' }}>
                   <div>
                     <span className="text-muted" style={{ fontSize: '0.75rem' }}>Target: </span>
                     <strong className="text-success">{trade.targetPrice ? `Rs. ${trade.targetPrice}` : '-'}</strong>
@@ -950,6 +959,7 @@ export default function App() {
                     <strong className="text-danger">{trade.stopLoss ? `Rs. ${trade.stopLoss}` : '-'}</strong>
                   </div>
                 </div>
+
               </div>
             );
           })
@@ -962,12 +972,13 @@ export default function App() {
     <div className="app-container">
       {/* Sidebar */}
       <aside className="sidebar">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '3rem' }}>
-          <div style={{ width: '40px', height: '40px', background: 'linear-gradient(135deg, var(--primary), var(--accent))', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="sidebar-logo" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+          <div style={{ width: '40px', height: '40px', background: 'linear-gradient(135deg, var(--primary), var(--accent))', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             <TrendingUp size={24} color="white" />
           </div>
           <h2 style={{ fontSize: '1.5rem', fontWeight: '800', letterSpacing: '1px' }}>Trader<span className="text-primary">AI</span></h2>
         </div>
+
 
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <button

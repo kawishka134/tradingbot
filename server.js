@@ -529,9 +529,25 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`\n=========================================`);
     console.log(`🚀 TRADING SERVER STARTED SUCCESSFULLY`);
-    console.log(`🔗 API URL: http://localhost:${PORT}/api/market`);
+    console.log(`🔗 API URL: http://0.0.0.0:${PORT}/api/market`);
     console.log(`=========================================\n`);
 });
+
+// -----------------------------------------------------------------
+// SELF-PING MECHANISM (Keep-Alive)
+// -----------------------------------------------------------------
+// Some free hosting providers (like Render) sleep after 15 mins of inactivity.
+// This pings the server its own health endpoint to attempt to keep it awake.
+setInterval(async () => {
+    try {
+        const url = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
+        await axios.get(`${url}/api/health`);
+        console.log(`[KEEP-ALIVE] Ping sent to ${url}`);
+    } catch (err) {
+        console.log(`[KEEP-ALIVE] Ping failed: ${err.message}`);
+    }
+}, 10 * 60 * 1000); // Every 10 minutes
+
 
 // -----------------------------------------------------------------
 // BACKGROUND MARKET WATCHER (TELEGRAM BOT)
