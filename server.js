@@ -418,7 +418,7 @@ async function fetchRealNews(force = false) {
         'oil price drop', 'dollar weakens', 'imf growth forecast', 'trade deal'
     ];
 
-    for (const source of sources) {
+    const fetchPromises = sources.map(async (source) => {
         try {
             const response = await axios.get(source.url, {
                 timeout: 10000,
@@ -428,7 +428,8 @@ async function fetchRealNews(force = false) {
                 }
             });
             const $ = cheerio.load(response.data, { xmlMode: true });
-
+            
+            let items = [];
             $('item').slice(0, 6).each((i, el) => {
                 const title = $(el).find('title').text().trim();
                 const description = $(el).find('description').text().trim();
@@ -465,7 +466,7 @@ async function fetchRealNews(force = false) {
                     marketRelevance = 'HIGH';
                 }
 
-                allNews.push({
+                items.push({
                     id: `${source.name}-${i}-${Date.now()}`,
                     title: title,
                     source: source.name,
@@ -476,11 +477,16 @@ async function fetchRealNews(force = false) {
                     summary: description.replace(/<[^>]*>/g, '').substring(0, 150) + '...'
                 });
             });
-            console.log(`[NEWS] Fetched ${$('item').length > 0 ? Math.min($('item').length, 6) : 0} items from ${source.name}`);
+            console.log(`[NEWS] Fetched ${items.length} items from ${source.name}`);
+            return items;
         } catch (err) {
             console.error(`[NEWS] Error fetching from ${source.name}: ${err.message}`);
+            return [];
         }
-    }
+    });
+
+    const results = await Promise.all(fetchPromises);
+    allNews = results.flat();
 
     // Sort: HIGH relevance first, then by impact weight
     allNews.sort((a, b) => {

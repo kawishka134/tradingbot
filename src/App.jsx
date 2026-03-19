@@ -111,7 +111,7 @@ export default function App() {
         }
       }
 
-      const newsResponse = await axios.get(`${API_BASE}/api/news${forceQuery}`);
+      const newsResponse = await axios.get(`${API_BASE}/api/news`);
       if (newsResponse.data) {
         setNewsData(newsResponse.data);
       }
